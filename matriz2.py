@@ -13,8 +13,8 @@ class App(ctk.CTk):
 
         self.title("OPERACIONES CON MATRICES")
 
-        self.imagen = ctk.CTkImage(light_image=Image.open("imagen_calculo.jpg"),
-                                   dark_image=Image.open("imagen_calculo.jpg"),
+        self.imagen = ctk.CTkImage(light_image=Image.open("dist\\imagen_calculo.jpg"),
+                                   dark_image=Image.open("dist\\imagen_calculo.jpg"),
                                    size=(950,1080))
         self.label_imagen = ctk.CTkLabel(self, text="", image=self.imagen)
         self.label_imagen.pack()
@@ -28,7 +28,7 @@ class App(ctk.CTk):
                                text_color="white",
                                justify='center',
                                anchor='center',
-                               corner_radius=25)
+                               corner_radius=0)
  
         # label de OPERACION DE MATRICES ESTA VARIABLE HACE LA COLOCACION DEL LABEL JUNTO A SU UBICACION
         self.anchor=self.OPM.place(relx=0.1, rely=0.1, anchor=ctk.SW, x=620)
