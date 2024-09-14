@@ -1,210 +1,180 @@
-import customtkinter as ctk
-from customtkinter import *
+import tkinter as tk
 from tkinter import messagebox
-from PIL import Image
 import numpy as np
-import unidecode 
 
-class App(ctk.CTk):
+class MatrixCalculator(tk.Tk):
     def __init__(self):
         super().__init__()
-        self.geometry("1620x720")
-        self.modo = ctk.set_appearance_mode('dark')
-        self.title("CALCULADORA DE MATRICES")
 
-        self.imagen = ctk.CTkImage(light_image=Image.open("imagen_calculo.jpg"),
-                                   dark_image=Image.open("imagen_calculo.jpg"),
-                                   size=(950,1080))
-        self.label_imagen = ctk.CTkLabel(self, text="", image=self.imagen)
-        self.label_imagen.pack()
-        self.label_imagen.place(x=700)
+        self.title("Algebra Lineal - Calculadora de Matrices")
+        self.geometry("800x600")
+        self.configure(bg='#f0f0f0')
 
-        self.label1 =  ctk.StringVar(value="Operación con matrices")
-        self.OPM = ctk.CTkLabel(master=self, textvariable=self.label1,
-                               width=700,
-                               fg_color=('blue'),
-                               font=('Comic Sans MS', 30, 'bold'),
-                               text_color="white",
-                               justify='center',
-                               anchor='center',
-                               corner_radius=0)
- 
-        # label de OPERACION DE MATRICES ESTA VARIABLE HACE LA COLOCACION DEL LABEL JUNTO A SU UBICACION
-        self.anchor=self.OPM.place(relx=0.1, rely=0.1, anchor=ctk.SW, x=620)
-        
-        self.label2 =  ctk.StringVar(value="Menú")
-        self.OPS = ctk.CTkLabel(master=self, textvariable=self.label2,
-                               width=300,
-                               font=('Comic Sans MS', 30, 'bold'),
-                               text_color=("black", "white"))
-        
-        self.anchor=self.OPS.place(x=125, y=80)      
+        self.create_widgets()
 
-        self.frame = ctk.CTkFrame(master=self, width=400,  height=540,  fg_color=("navy", "navy"), corner_radius=20, border_width=4, border_color="royal blue")
-        self.frame.place(x=80,y=150)       
-    
-        # Todos los botones de cada operacion de matrices    
-        self.button_suma = ctk.CTkButton(self, text="Suma", command=self.boton_suma, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_suma.configure(width=200, height=50)
-        self.button_suma.place(x=175, y=200)
-        
-        self.button_producto = ctk.CTkButton(self, text="Multiplicación", command=self.boton_producto, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_producto.configure(width=200, height=50)
-        self.button_producto.place(x=175, y=300)
+    def create_widgets(self):
+        # Frame principal para encerrar todos los elementos
+        main_frame = tk.Frame(self, bg='#ffffff', bd=2, relief='solid', padx=20, pady=20)
+        main_frame.pack(padx=20, pady=20, fill='both', expand=True)
 
-        self.button_transpuesta = ctk.CTkButton(self, text="Transpuesta", command=self.boton_transpuesta, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_transpuesta.configure(width=200, height=50)
-        self.button_transpuesta.place(x=175, y=400)
+        # Título principal
+        tk.Label(main_frame, text="Calculadora de Matrices", font=("Helvetica", 16, "bold"), bg='#ffffff').pack(pady=10)
 
-        self.button_reduccion = ctk.CTkButton(self, text="Reducción", command=self.boton_reduccion, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_reduccion.configure(width=200, height=50)
-        self.button_reduccion.place(x=175, y=500)
+        # Frame para entradas de dimensiones de las matrices
+        frame_dim = tk.Frame(main_frame, bg='#ffffff')
+        frame_dim.pack(pady=20)
 
-        self.button_salida = ctk.CTkButton(self, text="Salir", command=self.boton_salida, fg_color="red", hover_color="dark red", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_salida.configure(width=200, height=50)
-        self.button_salida.place(x=175, y=600)
-        
-        self.button_tema = ctk.CTkSwitch(master=self, text="Tema", command=self.boton_theme, border_width=3)
-        self.button_tema.place(x=20, y=10)    
-    
+        tk.Label(frame_dim, text="Número de filas de la primera matriz:", bg='#ffffff').grid(row=0, column=0, padx=10, pady=5, sticky='e')
+        self.filas1 = tk.Entry(frame_dim, width=5)
+        self.filas1.grid(row=0, column=1, padx=10, pady=5)
 
-    def boton_suma(self):
-        self.OPM.destroy()
-        self.label_imagen.destroy()
+        tk.Label(frame_dim, text="Número de columnas de la primera matriz:", bg='#ffffff').grid(row=1, column=0, padx=10, pady=5, sticky='e')
+        self.columnas1 = tk.Entry(frame_dim, width=5)
+        self.columnas1.grid(row=1, column=1, padx=10, pady=5)
 
-        self.button_ayuda_suma = ctk.CTkButton(self, text="Ayuda", command=self.boton_help_suma, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_ayuda_suma.configure(width=80, height=50)
-        self.button_ayuda_suma.place(x=1455, y=1)
+        tk.Label(frame_dim, text="Número de filas de la segunda matriz:", bg='#ffffff').grid(row=2, column=0, padx=10, pady=5, sticky='e')
+        self.filas2 = tk.Entry(frame_dim, width=5)
+        self.filas2.grid(row=2, column=1, padx=10, pady=5)
 
-        self.introducir_matriz1 = "hola"
+        tk.Label(frame_dim, text="Número de columnas de la segunda matriz:", bg='#ffffff').grid(row=3, column=0, padx=10, pady=5, sticky='e')
+        self.columnas2 = tk.Entry(frame_dim, width=5)
+        self.columnas2.grid(row=3, column=1, padx=10, pady=5)
 
-        self.introducir_matriz2 = "hola"
+        tk.Button(frame_dim, text="Ingresar Matrices", command=self.ingresar_matrices, bg='#007acc', fg='white').grid(row=4, column=0, columnspan=2, pady=20)
 
-    def boton_help_suma(self):
-        messagebox.showinfo(title="Reglas para sumar matrices",
-                            message="""Regla fundamental:\nPara poder sumar dos matrices, ambas deben tener las mismas dimensiones.\nEs decir, deben tener el mismo número de filas y el mismo número de columnas.\nProceso de suma:\nSi dos matrices cumplen con la condición de tener las mismas dimensiones, la suma se realiza elemento a elemento.\nEsto significa que:\nCada elemento de la matriz resultante será la suma de los elementos correspondientes de las matrices originales.\nMaximo de la matriz 10x10""")
+        # Frame para botones de operaciones
+        self.operaciones_frame = tk.Frame(main_frame, bg='#ffffff')
+        self.operaciones_frame.pack(pady=20)
 
-    def boton_producto(self):
-        self.OPM.destroy()
-        self.label_imagen.destroy()
+        tk.Button(self.operaciones_frame, text="Mostrar Matrices", command=self.mostrar_matrices, bg='#007acc', fg='white', width=15).grid(row=0, column=0, padx=10, pady=5)
+        tk.Button(self.operaciones_frame, text="Sumar Matrices", command=self.sumar_matrices, bg='#007acc', fg='white', width=15).grid(row=0, column=1, padx=10, pady=5)
+        tk.Button(self.operaciones_frame, text="Multiplicar Matrices", command=self.multiplicar_matrices, bg='#007acc', fg='white', width=15).grid(row=0, column=2, padx=10, pady=5)
+        tk.Button(self.operaciones_frame, text="Comprobar Inversas", command=self.comprobar_inversas, bg='#007acc', fg='white', width=15).grid(row=0, column=3, padx=10, pady=5)
+        tk.Button(self.operaciones_frame, text="Calcular Inversas", command=self.calcular_inversas, bg='#007acc', fg='white', width=15).grid(row=0, column=4, padx=10, pady=5)
 
-        self.button_ayuda_producto = ctk.CTkButton(self, text="Ayuda", command=self.boton_help_producto, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_ayuda_producto.configure(width=80, height=50)
-        self.button_ayuda_producto.place(x=1455, y=1)
-    
-    def boton_help_producto(self):
-        messagebox.showinfo(title="Reglas para multiplicar matrices",
-                            message="""Regla fundamental:\nPara poder multiplicar dos matrices, el número de columnas de la primera matriz debe ser igual al número de filas de la segunda matriz.\nEn resumen:\nVerifica las dimensiones:\nAsegúrate de que el número de columnas de la primera matriz coincida con el número de filas de la segunda.\nMultiplica y suma: Para cada elemento de la matriz resultante, realiza el producto escalar de una fila de la primera matriz y una columna de la segunda matriz.\nMaximo de la matriz 10x10""")
+        # Información del autor en la parte inferior
+        tk.Label(main_frame, text="Daniel David Arteaga Perez ", font=("Helvetica", 12), bg='#ffffff').pack(pady=10)
+        tk.Label(main_frame, text="Kevin Leonardo Yaruro Maldonado", font=("Helvetica", 12), bg='#ffffff').pack(pady=10)
+        tk.Label(main_frame, text="Jaider Esteban Villamizar", font=("Helvetica", 12), bg='#ffffff').pack(pady=10)
+        tk.Label(main_frame, text="Ingeniería de Software ", font=("Helvetica",            12), bg='#ffffff').pack(pady=10)
 
-    def boton_transpuesta(self):
-        self.OPM.destroy()
-        self.label_imagen.destroy()
-        
-        self.button_ayuda_transpuesta = ctk.CTkButton(self, text="Ayuda", command=self.boton_help_transpuesta, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_ayuda_transpuesta.configure(width=80, height=50)
-        self.button_ayuda_transpuesta.place(x=1455, y=1)
+    def ingresar_matrices(self):
+        try:
+            filas1 = int(self.filas1.get())
+            columnas1 = int(self.columnas1.get())
+            filas2 = int(self.filas2.get())
+            columnas2 = int(self.columnas2.get())
+            
+            self.crear_matriz(filas1, columnas1, filas2, columnas2)
+        except ValueError:
+            messagebox.showerror("Error", "Por favor, ingrese números válidos para las dimensiones.")
 
-    def boton_help_transpuesta(self):
-        messagebox.showinfo(title="Reglas de las matrices transpuestas",
-                            message="""Regla fundamental:\nLa matriz transpuesta se obtiene al intercambiar las filas por las columnas y viceversa. Es decir, la primera fila de la matriz original se convierte en la primera columna de la matriz transpuesta, la segunda fila en la segunda columna, y así sucesivamente.\nMaximo de la matriz 10x10""")
-        
-    def boton_reduccion(self):
-        self.OPM.destroy()
-        self.label_imagen.destroy()
-        
-        self.button_ayuda_reduccion = ctk.CTkButton(self, text="Ayuda", command=self.boton_help_reduccion, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_ayuda_reduccion.configure(width=80, height=50)
-        self.button_ayuda_reduccion.place(x=1455, y=1)
+    def crear_matriz(self, filas1, columnas1, filas2, columnas2):
+        top = tk.Toplevel(self)
+        top.title("Ingresar Matrices")
 
-    def boton_help_reduccion(self):
-        messagebox.showinfo(title="Reglas para verificar reducción de matrices",
-                            message="""Reglas de la reducción de matrices:\nMatriz escalonada reducida por filas:\nUna matriz está en forma escalonada reducida por filas si cumple con las siguientes condiciones:\nFilas nulas abajo: Todas las filas nulas (filas con todos sus elementos iguales a cero) deben estar agrupadas en la parte inferior de la matriz.\nPivotes iguales a 1: El primer elemento no nulo de cada fila no nula (llamado pivote) debe ser igual a 1.\nPivotes escalonados: Los pivotes de cada fila deben estar estrictamente a la derecha del pivote de la fila superior.\nCeros debajo de los pivotes: Todos los elementos debajo de un pivote deben ser ceros.\nMaximo de la matriz 10x10""")
+        frame_entries = tk.Frame(top, bg='#f0f0f0')
+        frame_entries.pack(pady=20)
 
-    def boton_salida(self):
-        self.destroy()       
+        tk.Label(frame_entries, text="Primera Matriz", bg='#f0f0f0', font=("Helvetica", 12, "bold")).grid(row=0, column=0, columnspan=columnas1, pady=10)
 
-    def boton_theme(self):
-        self.modo = "dark" if self.modo == "light" else "light"
-        ctk.set_appearance_mode(self.modo)
-        
-        
-app = App()
-app.mainloop()
+        entries1 = []
+        for i in range(filas1):
+            fila_entries = []
+            for j in range(columnas1):
+                entry = tk.Entry(frame_entries, width=5)
+                entry.grid(row=i+1, column=j, padx=5, pady=5)
+                fila_entries.append(entry)
+            entries1.append(fila_entries)
 
-def ingresar_matriz(filas, columnas):
-    """Ingresa una matriz de tamaño filas x columnas."""
-    matriz = []
-    for i in range(filas):
-        fila = []
-        for j in range(columnas):
-            elemento = float(input(f"\nIngrese el elemento en la posición ({i+1}, {j+1}): "))
-            fila.append(elemento)
-        matriz.append(fila)
-    return np.array(matriz)
+        start_row = filas1 + 2
 
-def imprimir_matriz(matriz):
-    """Imprime la matriz en formato tabular."""
-    for fila in matriz:
-        for elemento in fila:
-            print(f"{int(elemento):6d}", end=" ")
-        print()
-        
+        tk.Label(frame_entries, text="Segunda Matriz", bg='#f0f0f0', font=("Helvetica", 12, "bold")).grid(row=start_row, column=0, columnspan=columnas2, pady=10)
 
-def imprimir_matrices(matriz_original, matriz_resultado):
-    """Imprime la matriz original y la matriz resultado."""
-    print("Matriz original:")
-    imprimir_matriz(matriz_original)
-    print("\nMatriz resultado:")
-    imprimir_matriz(matriz_resultado)
+        entries2 = []
+        for i in range(filas2):
+            fila_entries = []
+            for j in range(columnas2):
+                entry = tk.Entry(frame_entries, width=5)
+                entry.grid(row=i+start_row+1, column=j, padx=5, pady=5)
+                fila_entries.append(entry)
+            entries2.append(fila_entries)
 
-def sumar_matrices(matriz1, matriz2):
-    """Suma dos matrices si tienen las mismas dimensiones."""
-    if matriz1.shape == matriz2.shape:
-        matriz_resultado = matriz1.copy()
-        matriz_resultado += matriz2
-        imprimir_matrices(matriz1, matriz_resultado)
-        return matriz_resultado
-    else:
-        print("No se pueden sumar matrices de diferentes dimensiones.")
-        return None
+        def guardar_matrices():
+            matriz1 = []
+            matriz2 = []
+            try:
+                for i in range(filas1):
+                    fila = [float(entries1[i][j].get()) for j in range(columnas1)]
+                    matriz1.append(fila)
 
-def multiplicar_matrices(matriz1, matriz2):
-    """Multiplica dos matrices si el número de columnas de la primera es igual al número de filas de la segunda."""
-    if matriz1.shape[1] == matriz2.shape[0]:
-        matriz_resultado = matriz1.copy()
-        matriz_resultado = np.dot(matriz_resultado, matriz2)
-        imprimir_matrices(matriz1, matriz_resultado)
-        return matriz_resultado
-    else:
-        print("No se pueden multiplicar estas matrices. El número de columnas de la primera matriz debe ser igual al número de filas de la   segunda.")
-        return None
+                for i in range(filas2):
+                    fila = [float(entries2[i][j].get()) for j in range(columnas2)]
+                    matriz2.append(fila)
 
-def transpuesta_matriz(matriz):
-    """Calcula la transpuesta de una matriz."""
-    matriz_transpuesta = matriz.copy()
-    imprimir_matrices(matriz, matriz_transpuesta)
-    return matriz_transpuesta.T
+                self.matriz1 = np.array(matriz1)
+                self.matriz2 = np.array(matriz2)
+                messagebox.showinfo("Información", "Matrices ingresadas correctamente.")
+                top.destroy()
+            except ValueError:
+                messagebox.showerror("Error", "Por favor, ingrese solo números válidos.")
 
-def reducir_filas(matriz):
-    """Reduce una matriz a su forma escalonada reducida por filas."""
-    matriz_reducida = matriz.copy() 
-    filas, columnas = matriz_reducida.shape
-    
-    matriz_reducida = matriz_reducida.astype(float) 
-    for i in range(filas):
-        indice_pivote = np.argmax(np.abs(matriz_reducida[i:, i])) + i
-        matriz_reducida[[i, indice_pivote]] = matriz_reducida[[indice_pivote, i]]
-        pivote = matriz_reducida[i, i]
-        if pivote != 0:
-            matriz_reducida[i] /= pivote
-            for j in range(i+1, filas):
-                matriz_reducida[j] -= matriz_reducida[j, i] * matriz_reducida[i]
-    
-    es_reducida = np.all(np.tril(matriz_reducida, -1) == 0)
-    
-    if es_reducida:
-        print("La matriz está en forma reducida.")
-    else:
-        print("La matriz no está en forma reducida.")
-    
-    return matriz_reducida
+        tk.Button(frame_entries, text="Guardar Matrices", command=guardar_matrices, bg='#007acc', fg='white').grid(row=start_row+filas2+1, column=0, columnspan=columnas1+columnas2, pady=20)
+
+    def mostrar_matrices(self):
+        try:
+            matriz1_str = f"Matriz 1:\n{self.matriz1}\n\n" if hasattr(self, 'matriz1') else "Matriz 1:\nNo ingresada\n\n"
+            matriz2_str = f"Matriz 2:\n{self.matriz2}\n" if hasattr(self, 'matriz2') else "Matriz 2:\nNo ingresada\n"
+            matrices_str = matriz1_str + matriz2_str
+
+            messagebox.showinfo("Matrices", matrices_str)
+        except AttributeError:
+            messagebox.showerror("Error", "Primero ingrese las matrices.")
+
+    def sumar_matrices(self):
+        try:
+            resultado = self.matriz1 + self.matriz2
+            messagebox.showinfo("Resultado", f"La suma de las matrices es:\n{resultado}")
+        except AttributeError:
+            messagebox.showerror("Error", "Primero ingrese las matrices.")
+        except ValueError:
+            messagebox.showerror("Error", "Las dimensiones de las matrices no son compatibles para la suma.")
+
+    def multiplicar_matrices(self):
+        try:
+            resultado = np.matmul(self.matriz1, self.matriz2)
+            messagebox.showinfo("Resultado", f"La multiplicación de las matrices es:\n{resultado}")
+        except AttributeError:
+            messagebox.showerror("Error", "Primero ingrese las matrices.")
+        except ValueError:
+            messagebox.showerror("Error", "Las dimensiones de las matrices no son compatibles para la multiplicación.")
+
+    def comprobar_inversas(self):
+        try:
+            if hasattr(self, 'matriz1') and hasattr(self, 'matriz2'):
+                inversa1 = np.linalg.inv(self.matriz1)
+                inversa2 = np.linalg.inv(self.matriz2)
+                messagebox.showinfo("Inversas", f"Inversa de la Matriz 1:\n{inversa1}\n\nInversa de la Matriz 2:\n{inversa2}")
+            else:
+                messagebox.showerror("Error", "Primero ingrese las matrices.")
+        except AttributeError:
+            messagebox.showerror("Error", "Primero ingrese las matrices.")
+        except np.linalg.LinAlgError:
+            messagebox.showerror("Error", "Alguna de las matrices no es invertible.")
+
+    def calcular_inversas(self):
+        try:
+            if hasattr(self, 'matriz1') and hasattr(self, 'matriz2'):
+                inversa1 = np.linalg.inv(self.matriz1)
+                inversa2 = np.linalg.inv(self.matriz2)
+                messagebox.showinfo("Inversas", f"Inversa de la Matriz 1:\n{inversa1}\n\nInversa de la Matriz 2:\n{inversa2}")
+            else:
+                messagebox.showerror("Error", "Primero ingrese las matrices.")
+        except AttributeError:
+            messagebox.showerror("Error", "Primero ingrese las matrices.")
+        except np.linalg.LinAlgError:
+            messagebox.showerror("Error", "Alguna de las matrices no es invertible.")
+
+if __name__ == "__main__":
+    app = MatrixCalculator()
+    app.mainloop()

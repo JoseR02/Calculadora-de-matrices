@@ -66,7 +66,6 @@ class App(ctk.CTk):
         
         self.button_tema = ctk.CTkSwitch(master=self, text="Tema", command=self.boton_theme, border_width=3)
         self.button_tema.place(x=20, y=10)    
-    
 
     def boton_suma(self):
         self.OPM.destroy()
@@ -75,11 +74,7 @@ class App(ctk.CTk):
         self.button_ayuda_suma = ctk.CTkButton(self, text="Ayuda", command=self.boton_help_suma, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
         self.button_ayuda_suma.configure(width=80, height=50)
         self.button_ayuda_suma.place(x=1455, y=1)
-
-        self.introducir_matriz1 = "hola"
-
-        self.introducir_matriz2 = "hola"
-
+        
     def boton_help_suma(self):
         messagebox.showinfo(title="Reglas para sumar matrices",
                             message="""Regla fundamental:\nPara poder sumar dos matrices, ambas deben tener las mismas dimensiones.\nEs decir, deben tener el mismo número de filas y el mismo número de columnas.\nProceso de suma:\nSi dos matrices cumplen con la condición de tener las mismas dimensiones, la suma se realiza elemento a elemento.\nEsto significa que:\nCada elemento de la matriz resultante será la suma de los elementos correspondientes de las matrices originales.\nMaximo de la matriz 10x10""")
@@ -91,11 +86,11 @@ class App(ctk.CTk):
         self.button_ayuda_producto = ctk.CTkButton(self, text="Ayuda", command=self.boton_help_producto, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
         self.button_ayuda_producto.configure(width=80, height=50)
         self.button_ayuda_producto.place(x=1455, y=1)
-    
+
     def boton_help_producto(self):
         messagebox.showinfo(title="Reglas para multiplicar matrices",
                             message="""Regla fundamental:\nPara poder multiplicar dos matrices, el número de columnas de la primera matriz debe ser igual al número de filas de la segunda matriz.\nEn resumen:\nVerifica las dimensiones:\nAsegúrate de que el número de columnas de la primera matriz coincida con el número de filas de la segunda.\nMultiplica y suma: Para cada elemento de la matriz resultante, realiza el producto escalar de una fila de la primera matriz y una columna de la segunda matriz.\nMaximo de la matriz 10x10""")
-
+    
     def boton_transpuesta(self):
         self.OPM.destroy()
         self.label_imagen.destroy()
@@ -130,81 +125,3 @@ class App(ctk.CTk):
         
 app = App()
 app.mainloop()
-
-def ingresar_matriz(filas, columnas):
-    """Ingresa una matriz de tamaño filas x columnas."""
-    matriz = []
-    for i in range(filas):
-        fila = []
-        for j in range(columnas):
-            elemento = float(input(f"\nIngrese el elemento en la posición ({i+1}, {j+1}): "))
-            fila.append(elemento)
-        matriz.append(fila)
-    return np.array(matriz)
-
-def imprimir_matriz(matriz):
-    """Imprime la matriz en formato tabular."""
-    for fila in matriz:
-        for elemento in fila:
-            print(f"{int(elemento):6d}", end=" ")
-        print()
-        
-
-def imprimir_matrices(matriz_original, matriz_resultado):
-    """Imprime la matriz original y la matriz resultado."""
-    print("Matriz original:")
-    imprimir_matriz(matriz_original)
-    print("\nMatriz resultado:")
-    imprimir_matriz(matriz_resultado)
-
-def sumar_matrices(matriz1, matriz2):
-    """Suma dos matrices si tienen las mismas dimensiones."""
-    if matriz1.shape == matriz2.shape:
-        matriz_resultado = matriz1.copy()
-        matriz_resultado += matriz2
-        imprimir_matrices(matriz1, matriz_resultado)
-        return matriz_resultado
-    else:
-        print("No se pueden sumar matrices de diferentes dimensiones.")
-        return None
-
-def multiplicar_matrices(matriz1, matriz2):
-    """Multiplica dos matrices si el número de columnas de la primera es igual al número de filas de la segunda."""
-    if matriz1.shape[1] == matriz2.shape[0]:
-        matriz_resultado = matriz1.copy()
-        matriz_resultado = np.dot(matriz_resultado, matriz2)
-        imprimir_matrices(matriz1, matriz_resultado)
-        return matriz_resultado
-    else:
-        print("No se pueden multiplicar estas matrices. El número de columnas de la primera matriz debe ser igual al número de filas de la   segunda.")
-        return None
-
-def transpuesta_matriz(matriz):
-    """Calcula la transpuesta de una matriz."""
-    matriz_transpuesta = matriz.copy()
-    imprimir_matrices(matriz, matriz_transpuesta)
-    return matriz_transpuesta.T
-
-def reducir_filas(matriz):
-    """Reduce una matriz a su forma escalonada reducida por filas."""
-    matriz_reducida = matriz.copy() 
-    filas, columnas = matriz_reducida.shape
-    
-    matriz_reducida = matriz_reducida.astype(float) 
-    for i in range(filas):
-        indice_pivote = np.argmax(np.abs(matriz_reducida[i:, i])) + i
-        matriz_reducida[[i, indice_pivote]] = matriz_reducida[[indice_pivote, i]]
-        pivote = matriz_reducida[i, i]
-        if pivote != 0:
-            matriz_reducida[i] /= pivote
-            for j in range(i+1, filas):
-                matriz_reducida[j] -= matriz_reducida[j, i] * matriz_reducida[i]
-    
-    es_reducida = np.all(np.tril(matriz_reducida, -1) == 0)
-    
-    if es_reducida:
-        print("La matriz está en forma reducida.")
-    else:
-        print("La matriz no está en forma reducida.")
-    
-    return matriz_reducidas

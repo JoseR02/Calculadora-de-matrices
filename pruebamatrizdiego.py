@@ -1,9 +1,140 @@
 import customtkinter as ctk
 from customtkinter import *
+from tkinter import messagebox
 from PIL import Image
-import tkinter as tk
-from tkinter.scrolledtext import ScrolledText
 import numpy as np
+import unidecode 
+
+class App(ctk.CTk):
+    def __init__(self):
+        super().__init__()
+        self.geometry("1620x720")
+        self.modo = ctk.set_appearance_mode('dark')
+        self.title("OPERACIONES CON MATRICES")
+
+        self.imagen = ctk.CTkImage(light_image=Image.open("imagen_calculo.jpg"),
+                                   dark_image=Image.open("imagen_calculo.jpg"),
+                                   size=(950,1080))
+        self.label_imagen = ctk.CTkLabel(self, text="", image=self.imagen)
+        self.label_imagen.pack()
+        self.label_imagen.place(x=700)
+
+        self.label1 =  ctk.StringVar(value="Operación con matrices")
+        self.OPM = ctk.CTkLabel(master=self, textvariable=self.label1,
+                               width=700,
+                               fg_color=('blue'),
+                               font=('Comic Sans MS', 30, 'bold'),
+                               text_color="white",
+                               justify='center',
+                               anchor='center',
+                               corner_radius=0)
+ 
+        # label de OPERACION DE MATRICES ESTA VARIABLE HACE LA COLOCACION DEL LABEL JUNTO A SU UBICACION
+        self.anchor=self.OPM.place(relx=0.1, rely=0.1, anchor=ctk.SW, x=620)
+        
+        self.label2 =  ctk.StringVar(value="Menú")
+        self.OPS = ctk.CTkLabel(master=self, textvariable=self.label2,
+                               width=300,
+                               font=('Comic Sans MS', 30, 'bold'),
+                               text_color=("black", "white"))
+        
+        self.anchor=self.OPS.place(x=125, y=80)      
+
+        self.frame = ctk.CTkFrame(master=self, width=400,  height=540,  fg_color=("navy", "navy"), corner_radius=20, border_width=4, border_color="royal blue")
+        self.frame.place(x=80,y=150)       
+    
+        # Todos los botones de cada operacion de matrices    
+        self.button_suma = ctk.CTkButton(self, text="Suma", command=self.boton_suma, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
+        self.button_suma.configure(width=200, height=50)
+        self.button_suma.place(x=175, y=200)
+        
+        self.button_producto = ctk.CTkButton(self, text="Multiplicación", command=self.boton_producto, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
+        self.button_producto.configure(width=200, height=50)
+        self.button_producto.place(x=175, y=300)
+
+        self.button_transpuesta = ctk.CTkButton(self, text="Transpuesta", command=self.boton_transpuesta, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
+        self.button_transpuesta.configure(width=200, height=50)
+        self.button_transpuesta.place(x=175, y=400)
+
+        self.button_reduccion = ctk.CTkButton(self, text="Reducción", command=self.boton_reduccion, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
+        self.button_reduccion.configure(width=200, height=50)
+        self.button_reduccion.place(x=175, y=500)
+
+        self.button_salida = ctk.CTkButton(self, text="Salir", command=self.boton_salida, fg_color="red", hover_color="dark red", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
+        self.button_salida.configure(width=200, height=50)
+        self.button_salida.place(x=175, y=600)
+        
+        self.button_tema = ctk.CTkSwitch(master=self, text="Tema", command=self.boton_theme, border_width=3)
+        self.button_tema.place(x=20, y=10)    
+    
+
+    def boton_suma(self):
+        self.OPM.destroy()
+        self.label_imagen.destroy()
+
+        self.button_ayuda_suma = ctk.CTkButton(self, text="Ayuda", command=self.boton_help_suma, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
+        self.button_ayuda_suma.configure(width=80, height=50)
+        self.button_ayuda_suma.place(x=1455, y=1)
+
+        
+
+    def suma_de_matriz(self, matriz1, matriz2):
+        
+        self.matriz1 = []
+        self.matriz2 = []
+
+
+
+    def boton_help_suma(self):
+        messagebox.showinfo(title="Reglas para sumar matrices",
+                            message="""Regla fundamental:\nPara poder sumar dos matrices, ambas deben tener las mismas dimensiones.\nEs decir, deben tener el mismo número de filas y el mismo número de columnas.\nProceso de suma:\nSi dos matrices cumplen con la condición de tener las mismas dimensiones, la suma se realiza elemento a elemento.\nEsto significa que:\nCada elemento de la matriz resultante será la suma de los elementos correspondientes de las matrices originales.\nMaximo de la matriz 10x10""")
+
+    def boton_producto(self):
+        self.OPM.destroy()
+        self.label_imagen.destroy()
+
+        self.button_ayuda_producto = ctk.CTkButton(self, text="Ayuda", command=self.boton_help_producto, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
+        self.button_ayuda_producto.configure(width=80, height=50)
+        self.button_ayuda_producto.place(x=1455, y=1)
+
+    def boton_help_producto(self):
+        messagebox.showinfo(title="Reglas para multiplicar matrices",
+                            message="""Regla fundamental:\nPara poder multiplicar dos matrices, el número de columnas de la primera matriz debe ser igual al número de filas de la segunda matriz.\nEn resumen:\nVerifica las dimensiones:\nAsegúrate de que el número de columnas de la primera matriz coincida con el número de filas de la segunda.\nMultiplica y suma: Para cada elemento de la matriz resultante, realiza el producto escalar de una fila de la primera matriz y una columna de la segunda matriz.\nMaximo de la matriz 10x10""")
+    
+    def boton_transpuesta(self):
+        self.OPM.destroy()
+        self.label_imagen.destroy()
+        
+        self.button_ayuda_transpuesta = ctk.CTkButton(self, text="Ayuda", command=self.boton_help_transpuesta, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
+        self.button_ayuda_transpuesta.configure(width=80, height=50)
+        self.button_ayuda_transpuesta.place(x=1455, y=1)
+
+    def boton_help_transpuesta(self):
+        messagebox.showinfo(title="Reglas de las matrices transpuestas",
+                            message="""Regla fundamental:\nLa matriz transpuesta se obtiene al intercambiar las filas por las columnas y viceversa. Es decir, la primera fila de la matriz original se convierte en la primera columna de la matriz transpuesta, la segunda fila en la segunda columna, y así sucesivamente.\nMaximo de la matriz 10x10""")
+        
+    def boton_reduccion(self):
+        self.OPM.destroy()
+        self.label_imagen.destroy()
+        
+        self.button_ayuda_reduccion = ctk.CTkButton(self, text="Ayuda", command=self.boton_help_reduccion, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
+        self.button_ayuda_reduccion.configure(width=80, height=50)
+        self.button_ayuda_reduccion.place(x=1455, y=1)
+
+    def boton_help_reduccion(self):
+        messagebox.showinfo(title="Reglas para verificar reducción de matrices",
+                            message="""Reglas de la reducción de matrices:\nMatriz escalonada reducida por filas:\nUna matriz está en forma escalonada reducida por filas si cumple con las siguientes condiciones:\nFilas nulas abajo: Todas las filas nulas (filas con todos sus elementos iguales a cero) deben estar agrupadas en la parte inferior de la matriz.\nPivotes iguales a 1: El primer elemento no nulo de cada fila no nula (llamado pivote) debe ser igual a 1.\nPivotes escalonados: Los pivotes de cada fila deben estar estrictamente a la derecha del pivote de la fila superior.\nCeros debajo de los pivotes: Todos los elementos debajo de un pivote deben ser ceros.\nMaximo de la matriz 10x10""")
+
+    def boton_salida(self):
+        self.destroy()       
+
+    def boton_theme(self):
+        self.modo = "dark" if self.modo == "light" else "light"
+        ctk.set_appearance_mode(self.modo)
+        
+        
+app = App()
+app.mainloop()
 
 def ingresar_matriz(filas, columnas):
     """Ingresa una matriz de tamaño filas x columnas."""
@@ -22,13 +153,7 @@ def imprimir_matriz(matriz):
         for elemento in fila:
             print(f"{int(elemento):6d}", end=" ")
         print()
-
-
-def imprimir_matriz_en_text(matriz, text_widget):
-    for fila in matriz:
-        for elemento in fila:
-            text_widget.insert(ctk.END, f"{int(elemento):6d} ")
-        text_widget.insert(ctk.END, "\n")        
+        
 
 def imprimir_matrices(matriz_original, matriz_resultado):
     """Imprime la matriz original y la matriz resultado."""
@@ -63,7 +188,7 @@ def transpuesta_matriz(matriz):
     """Calcula la transpuesta de una matriz."""
     matriz_transpuesta = matriz.copy()
     imprimir_matrices(matriz, matriz_transpuesta)
-    return matriz_transpuesta
+    return matriz_transpuesta.T
 
 def reducir_filas(matriz):
     """Reduce una matriz a su forma escalonada reducida por filas."""
@@ -88,183 +213,3 @@ def reducir_filas(matriz):
         print("La matriz no está en forma reducida.")
     
     return matriz_reducida
-
-class App(ctk.CTk):
-    def __init__(self):
-        super().__init__()
-        self.geometry("1920x1080")
-        self.modo = ctk.set_appearance_mode('dark')
-        self.title("OPERACIONES CON MATRICES")
-
-        self.imagen = ctk.CTkImage(light_image=Image.open("imagen_calculo.jpg"),
-                                   dark_image=Image.open("imagen_calculo.jpg"),
-                                   size=(950,1080))
-        self.label_imagen = ctk.CTkLabel(self, text="", image=self.imagen)
-        self.label_imagen.pack()
-        self.label_imagen.place(x=700)
-
-        self.label1 =  ctk.StringVar(value="Operacion con matrices")
-        self.OPM = ctk.CTkLabel(master=self, textvariable=self.label1,
-                               width=700,
-                               fg_color=('blue'),
-                               font=('Comic Sans MS', 30, 'bold'),
-                               text_color="white",
-                               justify='center',
-                               anchor='center',
-                               corner_radius=0)
- 
-        # label de OPERACION DE MATRICES ESTA VARIABLE HACE LA COLOCACION DEL LABEL JUNTO A SU UBICACION
-        self.anchor=self.OPM.place(relx=0.1, rely=0.1, anchor=ctk.SW, x=620)
-        
-        self.label2 =  ctk.StringVar(value="Menu de opciones: ")
-        self.OPS = ctk.CTkLabel(master=self, textvariable=self.label2,
-                               width=300,
-                               font=('Comic Sans MS', 30, 'bold'),
-                               text_color=("black", "white"),
-                               justify='center',
-                               anchor='center')
-        
-        self.anchor=self.OPS.place(relx=0.1, rely=0.1, anchor=ctk.SW, x=-20, y=70)      
-
-        self.frame = ctk.CTkFrame(master=self, width=400,  height=540,  fg_color=("navy", "navy"), corner_radius=20, border_width=4, border_color="royal blue")
-        self.frame.place(x=80,y=150)
-        
-        self.input_frame = ctk.CTkFrame(master=self, width=400, height=200, fg_color=("navy", "navy"), corner_radius=20, border_width=4, border_color="royal blue")
-        self.input_frame.place(x=80, y=700)
-        
-        self.input_label = ctk.CTkLabel(master=self.input_frame, text="Ingresar matrices:", font=("Copperplate", 15, "bold"), text_color="white")
-        self.input_label.place(x=10, y=10)
-        
-        self.output_label = ctk.CTkLabel(master=self.input_frame, text="Resultado:", font=("Copperplate", 15, "bold"), text_color="white")
-        self.output_label.place(x=10, y=100)
-        
-        self.matrix1_rows_entry = ctk.CTkEntry(master=self.input_frame, width=20)
-        self.matrix1_rows_entry.place(x=180, y=40)
-        self.matrix1_cols_entry = ctk.CTkEntry(master=self.input_frame, width=20)
-        self.matrix1_cols_entry.place(x=220, y=40)
-        
-        self.matrix2_rows_entry = ctk.CTkEntry(master=self.input_frame, width=20)
-        self.matrix2_rows_entry.place(x=180, y=70)
-        self.matrix2_cols_entry = ctk.CTkEntry(master=self.input_frame, width=20)
-        self.matrix2_cols_entry.place(x=220, y=70)
-        
-        self.matrix1_label = ctk.CTkLabel(master=self.input_frame, text="Matriz 1 (filas x columnas): ", font=("Copperplate", 12, "bold"), text_color="white")
-        self.matrix1_label.place(x=10, y=40)
-
-        self.matrix2_label = ctk.CTkLabel(master=self.input_frame, text="Matriz 2 (filas x columnas): ", font=("Copperplate", 12, "bold"), text_color="white")
-        self.matrix2_label.place(x=10, y=70)
-        
-        self.output_text = ctk.CTkText(master=self.input_frame, width=300, height=70)
-        self.output_text.place(x=10, y=130)
-        
-
-        
-    
-        # Todos los botones de cada operacion de matrices    
-        self.button_suma = ctk.CTkButton(self, text="Suma", command=self.boton_suma, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_suma.configure(width=200, height=50)
-        self.button_suma.configure(command=self.boton_suma)
-        self.button_suma.place(x=175, y=200)
-        
-        self.button_producto = ctk.CTkButton(self, text="Multiplicacion", command=self.boton_producto, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_producto.configure(width=200, height=50)
-        self.button_producto.place(x=175, y=300)
-
-        self.button_transpuesta = ctk.CTkButton(self, text="Transpuesta", command=self.boton_transpuesta, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_transpuesta.configure(width=200, height=50)
-        self.button_transpuesta.place(x=175, y=400)
-
-        self.button_reduccion = ctk.CTkButton(self, text="Reduccion", command=self.boton_reduccion, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_reduccion.configure(width=200, height=50)
-        self.button_reduccion.place(x=175, y=500)
-
-        self.button_salida = ctk.CTkButton(self, text="Salir", command=self.boton_salida, fg_color="red", hover_color="dark red", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        self.button_salida.configure(width=200, height=50)
-        self.button_salida.place(x=175, y=600)
-        
-        #self.button_regresar = ctk.CTkButton(self, text="Salir", command=self.boton_regresar, fg_color="red", hover_color="dark red", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("navy", "navy"))
-        #self.button_regresar.configure(width=200, height=50)
-        #self.button_regresar.place(x=175, y=700)
-        
-        self.button_tema = ctk.CTkSwitch(master=self, text="Tema", command=self.boton_theme, border_width=3)
-        self.button_tema.place(x=20, y=10)    
-
-
-    def boton_suma(self):
-        rows1 = int(self.matrix1_rows_entry.get())
-        cols1 = int(self.matrix1_cols_entry.get())
-        rows2 = int(self.matrix2_rows_entry.get())
-        cols2 = int(self.matrix2_cols_entry.get())
-
-        if rows1 == rows2 and cols1 == cols2:
-            matriz1 = ingresar_matriz(rows1, cols1)
-            matriz2 = ingresar_matriz(rows2, cols2)
-            matriz_resultado = sumar_matrices(matriz1, matriz2)
-            self.output_text.delete("1.0", ctk.END)
-            self.output_text.insert(ctk.END, f"Matriz 1:\n")
-            imprimir_matriz_en_text(matriz1, self.output_text)
-            self.output_text.insert(ctk.END, f"\nMatriz 2:\n")
-            imprimir_matriz_en_text(matriz2, self.output_text)
-            self.output_text.insert(ctk.END, f"\nMatriz resultado:\n")
-            imprimir_matriz_en_text(matriz_resultado, self.output_text)
-        else:
-            self.output_text.delete("1.0", ctk.END)
-            self.output_text.insert(ctk.END, "Las matrices no tienen las mismas dimensiones.")
-        
-    def boton_producto(self):
-        rows1 = int(self.matrix1_rows_entry.get())
-        cols1 = int(self.matrix1_cols_entry.get())
-        rows2 = int(self.matrix2_rows_entry.get())
-        cols2 = int(self.matrix2_cols_entry.get())
-
-        if cols1 == rows2:
-            matriz1 = ingresar_matriz(rows1, cols1)
-            matriz2 = ingresar_matriz(rows2, cols2)
-            matriz_resultado = multiplicar_matrices(matriz1, matriz2)
-            self.output_text.delete("1.0", ctk.END)
-            self.output_text.insert(ctk.END, f"Matriz 1:\n")
-            imprimir_matriz_en_text(matriz1, self.output_text)
-            self.output_text.insert(ctk.END, f"\nMatriz 2:\n")
-            imprimir_matriz_en_text(matriz2, self.output_text)
-            self.output_text.insert(ctk.END, f"\nMatriz resultado:\n")
-            imprimir_matriz_en_text(matriz_resultado, self.output_text)
-        else:
-            self.output_text.delete("1.0", ctk.END)
-            self.output_text.insert(ctk.END, "Las matrices no se pueden multiplicar.")
-
-    def boton_transpuesta(self):
-        rows1 = int(self.matrix1_rows_entry.get())
-        cols1 = int(self.matrix1_cols_entry.get())
-
-        matriz1 = ingresar_matriz(rows1, cols1)
-        matriz_transpuesta = transpuesta_matriz(matriz1)
-        self.output_text.delete("1.0", ctk.END)
-        self.output_text.insert(ctk.END, f"Matriz 1:\n")
-        imprimir_matriz_en_text(matriz1, self.output_text)
-        self.output_text.insert(ctk.END, f"\nMatriz transpuesta:\n")
-        imprimir_matriz_en_text(matriz_transpuesta, self.output_text)
-
-    def boton_reduccion(self):
-        rows1 = int(self.matrix1_rows_entry.get())
-        cols1 = int(self.matrix1_cols_entry.get())
-
-        matriz1 = ingresar_matriz(rows1, cols1)
-        matriz_reducida = reducir_matriz(matriz1)
-        self.output_text.delete("1.0", ctk.END)
-        self.output_text.insert(ctk.END, f"Matriz 1:\n")
-        imprimir_matriz_en_text(matriz1, self.output_text)
-        self.output_text.insert(ctk.END, f"\nMatriz reducida:\n")
-        imprimir_matriz_en_text(matriz_reducida, self.output_text)
-
-
-    def boton_salida(self):
-        self.destroy()     
-       
-
-    def boton_theme(self):
-        self.modo = "dark" if self.modo == "light" else "light"
-        ctk.set_appearance_mode(self.modo)
-        
-if __name__ == "__main__":
-    app = App()
-    app.mainloop()
