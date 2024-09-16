@@ -9,7 +9,7 @@ class App(ctk.CTk,tk.Tk):
         super().__init__()
         
         self.title("CALCULADORA DE MATRICES")
-        self.geometry("1920x1080")
+        self.geometry("1280x720")
         self.modo = ctk.set_appearance_mode('dark')
         
         self.create_frame()
@@ -21,7 +21,7 @@ class App(ctk.CTk,tk.Tk):
         self.frame.place(x=0,y=0)
             
         self.label1 =  ctk.StringVar(value="Menú: ")
-        self.OPS = ctk.CTkLabel(master=self, textvariable=self.label1, width=300, font=('Comic Sans MS', 30, 'bold'), text_color=("black", "white"), fg_color='gray9', bg_color='gray9', justify='center', anchor='center')
+        self.OPS = ctk.CTkLabel(master=self, textvariable=self.label1, width=300, font=('Comic Sans MS', 25, 'bold'), text_color=("black", "white"), fg_color='gray9', bg_color='gray9', justify='center', anchor='center')
         self.anchor=self.OPS.place(relx=0.1, rely=0.1, anchor=ctk.SW, x=-60, y=50)
     
         # Todos los botones de cada operacion de matrices    
@@ -42,7 +42,7 @@ class App(ctk.CTk,tk.Tk):
         self.button_reduccion.configure(width=200, height=50)
         self.button_reduccion.place(x=130, y=500)
         
-        self.button_mostrar = ctk.CTkButton(self, text="Mostrar Matriz", command=self.mostrar_matrices, fg_color="red", hover_color="dark red", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="red3", bg_color=("gray9", "gray9"))
+        self.button_mostrar = ctk.CTkButton(self, text="Mostrar Matriz", command=self.mostrar_matrices, fg_color="gray9", hover_color="green", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="dark green", bg_color=("gray9", "gray9"))
         self.button_mostrar.configure(width=200, height=50)
         self.button_mostrar.place(x=130, y=600)
 
@@ -65,6 +65,14 @@ class App(ctk.CTk,tk.Tk):
         self.button_ayuda_reduccion = ctk.CTkButton(self, text="Ayuda", command=self.boton_help_reduccion, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("gray9", "gray9"))
         self.button_ayuda_reduccion.configure(width=80, height=50)
         self.button_ayuda_reduccion.place(x=380, y=500)
+
+        self.button_ayuda_reduccion = ctk.CTkButton(self, text="Creditos", command=self.creditos_usuarios, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("gray9", "gray9"))
+        self.button_ayuda_reduccion.configure(width=80, height=50)
+        self.button_ayuda_reduccion.place(x=380, y=600)
+
+        self.label2 =  ctk.StringVar(value="Operación con matrices")
+        self.OPM = ctk.CTkLabel(master=self, textvariable=self.label2, width=400, fg_color=('gray9'), bg_color='gray9', font=('Comic Sans MS', 25, 'bold'), text_color="white", justify='center', anchor='center', corner_radius=0)
+        self.OPM.place(relx=0.1, rely=0.1,y=-60, x=-100)
         
     def create_frame2(self):  
         self.frame2 = ctk.CTkFrame(master=self, width=1420,  height=1015,  fg_color=("gray9", "gray9"), corner_radius=20, border_width=4, border_color="royal blue")
@@ -81,10 +89,6 @@ class App(ctk.CTk,tk.Tk):
         
         self.frame_dim4 = ctk.CTkFrame(master=self, width=50, height=50, bg_color='gray9', fg_color='gray9')
         self.frame_dim4.place(x=870,y=305)
-        
-        self.label2 =  ctk.StringVar(value="Operación con matrices")
-        self.OPM = ctk.CTkLabel(master=self, textvariable=self.label2, width=700, fg_color=('gray9'), bg_color='gray9', font=('Comic Sans MS', 30, 'bold'), text_color="white", justify='center', anchor='center', corner_radius=0)
-        self.anchor=self.OPM.place(relx=0.1, rely=0.1, anchor=ctk.SW,y=-20, x=620)
         
         self.label3 =  ctk.StringVar(value="Número de filas de la primera matriz:")
         self.OPM = ctk.CTkLabel(master=self, textvariable=self.label3, width=100, fg_color=('gray9'), bg_color='gray9', font=('Comic Sans MS', 15, 'bold'), text_color="white", justify='center', anchor='center', corner_radius=0)
@@ -119,10 +123,15 @@ class App(ctk.CTk,tk.Tk):
         self.button_ingresar.configure(command=self.ingresar_matriz)
         self.button_ingresar.place(x=650, y=350)
 
+        self.button_operaciones = ctk.CTkButton(self, text="¿Como funciona?", command=self.ayuda_funciona, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("gray9", "gray9"))
+        self.button_operaciones.configure(width=200, height=50)
+        self.button_operaciones.configure(command=self.ayuda_funciona)
+        self.button_operaciones.place(x=950, y=350)
+
     def boton_suma(self):
         try:
             resultado = self.matriz1 + self.matriz2
-            messagebox.showinfo("Resultado", f"La suma de las matrices es:\n{resultado}")
+            messagebox.showinfo("resultado",f"El resultado entre las matrices \n{self.matriz1} y  \n{self.matriz2}"f"\nLa suma de las matrices es:\n{resultado}")
         except AttributeError:
             messagebox.showerror("Error", "Primero ingrese las matrices.")
         except ValueError:
@@ -130,12 +139,12 @@ class App(ctk.CTk,tk.Tk):
     
     def boton_help_suma(self):
         messagebox.showinfo(title="Reglas para sumar matrices",
-                            message="""Regla fundamental:\nPara poder sumar dos matrices, ambas deben tener las mismas dimensiones.\nEs decir, deben tener el mismo número de filas y el mismo número de columnas.\nProceso de suma:\nSi dos matrices cumplen con la condición de tener las mismas dimensiones, la suma se realiza elemento a elemento.\nEsto significa que:\nCada elemento de la matriz resultante será la suma de los elementos correspondientes de las matrices originales.\nMaximo de la matriz 10x10""")
+                            message="""Regla fundamental:\nPara poder sumar dos matrices, ambas deben tener las mismas dimensiones.\nEs decir, deben tener el mismo número de filas y el mismo número de columnas.\nProceso de suma:\nSi dos matrices cumplen con la condición de tener las mismas dimensiones, la suma se realiza elemento a elemento.\nEsto significa que:\nCada elemento de la matriz resultante será la suma de los elementos correspondientes de las matrices originales.\n\nNOTA: máximo de la matriz 10x10""")
 
     def boton_producto(self):
         try:
             resultado = np.matmul(self.matriz1, self.matriz2)
-            messagebox.showinfo("Resultado", f"La multiplicación de las matrices es:\n{resultado}")
+            messagebox.showinfo("Resultado",f"El resultado entre las matrices \n{self.matriz1} y  \n{self.matriz2}" f"\nLa multiplicación de las matrices es:\n{resultado}")
         except AttributeError:
             messagebox.showerror("Error", "Primero ingrese las matrices.")
         except ValueError:
@@ -143,7 +152,7 @@ class App(ctk.CTk,tk.Tk):
 
     def boton_help_producto(self):
         messagebox.showinfo(title="Reglas para multiplicar matrices",
-                            message="""Regla fundamental:\nPara poder multiplicar dos matrices, el número de columnas de la primera matriz debe ser igual al número de filas de la segunda matriz.\nEn resumen:\nVerifica las dimensiones:\nAsegúrate de que el número de columnas de la primera matriz coincida con el número de filas de la segunda.\nMultiplica y suma: Para cada elemento de la matriz resultante, realiza el producto escalar de una fila de la primera matriz y una columna de la segunda matriz.\nMaximo de la matriz 10x10""")
+                            message="""Regla fundamental:\nPara poder multiplicar dos matrices, el número de columnas de la primera matriz debe ser igual al número de filas de la segunda matriz.\nEn resumen:\nVerifica las dimensiones:\nAsegúrate de que el número de columnas de la primera matriz coincida con el número de filas de la segunda.\nMultiplica y suma: Para cada elemento de la matriz resultante, realiza el producto escalar de una fila de la primera matriz y una columna de la segunda matriz.\n\nNOTA: máximo de la matriz 10x10""")
 
 
     def boton_transpuesta(self):
@@ -158,7 +167,7 @@ class App(ctk.CTk,tk.Tk):
 
     def boton_help_transpuesta(self):
         messagebox.showinfo(title="Reglas de las matrices transpuestas",
-                            message="""Regla fundamental:\nLa matriz transpuesta se obtiene al intercambiar las filas por las columnas y viceversa. Es decir, la primera fila de la matriz original se convierte en la primera columna de la matriz transpuesta, la segunda fila en la segunda columna, y así sucesivamente.\nLa transpuesta mostrada es del caso de la primera matriz.\nMaximo de la matriz 10x10""")
+                            message="""Regla fundamental:\nLa matriz transpuesta se obtiene al intercambiar las filas por las columnas y viceversa. Es decir, la primera fila de la matriz original se convierte en la primera columna de la matriz transpuesta, la segunda fila en la segunda columna, y así sucesivamente.\nLa transpuesta mostrada es del caso de la primera matriz.\n\nNOTA: máximo de la matriz 10x10 y solo trabaja con la primera matriz""")
 
 
     def boton_reduccion(self):
@@ -181,7 +190,7 @@ class App(ctk.CTk,tk.Tk):
 
     def boton_help_reduccion(self):
         messagebox.showinfo(title="Reglas para verificar reducción de matrices",
-                            message="""Reglas de la reducción de matrices:\nMatriz escalonada reducida por filas:\nUna matriz está en forma escalonada reducida por filas si cumple con las siguientes condiciones:\nFilas nulas abajo: Todas las filas nulas (filas con todos sus elementos iguales a cero) deben estar agrupadas en la parte inferior de la matriz.\nPivotes iguales a 1: El primer elemento no nulo de cada fila no nula (llamado pivote) debe ser igual a 1.\nPivotes escalonados: Los pivotes de cada fila deben estar estrictamente a la derecha del pivote de la fila superior.\nCeros debajo de los pivotes: Todos los elementos debajo de un pivote deben ser ceros.\nMaximo de la matriz 10x10""")
+                            message="""Reglas de la reducción de matrices:\nMatriz escalonada reducida por filas:\nUna matriz está en forma escalonada reducida por filas si cumple con las siguientes condiciones:\nFilas nulas abajo: Todas las filas nulas (filas con todos sus elementos iguales a cero) deben estar agrupadas en la parte inferior de la matriz.\nPivotes iguales a 1: El primer elemento no nulo de cada fila no nula (llamado pivote) debe ser igual a 1.\nPivotes escalonados: Los pivotes de cada fila deben estar estrictamente a la derecha del pivote de la fila superior.\nCeros debajo de los pivotes: Todos los elementos debajo de un pivote deben ser ceros.\n\nNOTA: máximo de la matriz 10x10 y solo trabaja con la primera matriz""")
 
 
     def boton_salida(self):
@@ -261,7 +270,13 @@ class App(ctk.CTk,tk.Tk):
             messagebox.showinfo("Matrices", matrices_str)
         except AttributeError:
             messagebox.showerror("Error", "Primero ingrese las matrices.")
-            
+    
+    def ayuda_funciona(self):
+        ayuda = messagebox.showinfo("¿COMO FUNCIONA?", "Pasos para tabajar en tu calculadora de matrices:\n1. Primer paso: introduzca el tamaño de cada matriz en el siguiente orden.\nPrimero filas.\nSegundo columnas.\n2. Segundo paso: Introduzca cada elemento de la matriz.\nRellenar la primera matriz y la segunda matriz.\n3. Tercer paso: Operar suma, multiplicación, la transpuesta y verificar la reducción pulsando los botones de la izquierda.\n Eso es todo lo que necesitas para empezar a operar espero que te diviertas.")  
+
+    def creditos_usuarios(self):
+        creditos = messagebox.showinfo("CREDITOS", "Desarrolladores:\n Jose Rojas y Diego Gollarza\nEditorial usada:\nDe Ernest F. Haeussler, Richard S. Paul. 2003. Matematicas para la administración y economía.\nEditorial: Prentice Hall")
+
 if __name__ == "__main__":
     app = App()
     app.mainloop()
