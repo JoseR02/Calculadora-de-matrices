@@ -123,7 +123,7 @@ class App(ctk.CTk,tk.Tk):
         self.button_ingresar.configure(command=self.ingresar_matriz)
         self.button_ingresar.place(x=650, y=350)
 
-        self.button_operaciones = ctk.CTkButton(self, text="¿Como funciona?", command=self.ayuda_funciona, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("gray9", "gray9"))
+        self.button_operaciones = ctk.CTkButton(self, text="¿Cómo funciona?", command=self.ayuda_funciona, fg_color="dodger blue", hover_color="dark blue", corner_radius=32, font=("Copperplate", 15, "bold"), border_width=3, border_color="royal blue", bg_color=("gray9", "gray9"))
         self.button_operaciones.configure(width=200, height=50)
         self.button_operaciones.configure(command=self.ayuda_funciona)
         self.button_operaciones.place(x=950, y=350)
@@ -173,8 +173,8 @@ class App(ctk.CTk,tk.Tk):
     def boton_reduccion(self):
         try:
             if self.matriz1 is not None:
-                if self.matriz1.shape[0] == self.matriz1.shape[1]:  # Check if the matrix is square
-                    if np.linalg.matrix_rank(self.matriz1) == min(self.matriz1.shape):  # Check if the matrix has linearly independent rows and columns
+                if self.matriz1.shape[0] == self.matriz1.shape[1]:  # revisa si la matriz es cuadrada
+                    if np.linalg.matrix_rank(self.matriz1) == min(self.matriz1.shape):  # revisa si la matriz sigue un patron 
                         resultado = self.matriz1
                         messagebox.showinfo("Resultado",f"La matriz es reducida.\n{resultado}")
                     else:
@@ -272,10 +272,10 @@ class App(ctk.CTk,tk.Tk):
             messagebox.showerror("Error", "Primero ingrese las matrices.")
     
     def ayuda_funciona(self):
-        ayuda = messagebox.showinfo("¿COMO FUNCIONA?", "Pasos para tabajar en tu calculadora de matrices:\n1. Primer paso: introduzca el tamaño de cada matriz en el siguiente orden.\nPrimero filas.\nSegundo columnas.\n2. Segundo paso: Introduzca cada elemento de la matriz.\nRellenar la primera matriz y la segunda matriz.\n3. Tercer paso: Operar suma, multiplicación, la transpuesta y verificar la reducción pulsando los botones de la izquierda.\n Eso es todo lo que necesitas para empezar a operar espero que te diviertas.")  
+        ayuda = messagebox.showinfo("¿CÓMO FUNCIONA?", "Pasos para tabajar en tu calculadora de matrices:\n1. Primer paso: introduzca el tamaño de cada matriz en el siguiente orden.\nPrimero filas.\nSegundo columnas.\n2. Segundo paso: Introduzca cada elemento de la matriz.\nRellenar la primera matriz y la segunda matriz.\n3. Tercer paso: Operar suma, multiplicación, la transpuesta y verificar la reducción pulsando los botones de la izquierda.\n Eso es todo lo que necesitas para empezar a operar espero que te diviertas.")  
 
     def creditos_usuarios(self):
-        creditos = messagebox.showinfo("CREDITOS", "Desarrolladores:\n Jose Rojas y Diego Gollarza\nEditorial usada:\nDe Ernest F. Haeussler, Richard S. Paul. 2003. Matematicas para la administración y economía.\nEditorial: Prentice Hall")
+        creditos = messagebox.showinfo("CREDITOS", "Desarrolladores:\n Jose Rojas y Diego Gollarza\nReferencias:\nDe Ernest F. Haeussler, Richard S. Paul. 2003. Matematicas para la administración y economía.\nEditorial: Prentice Hall")
 
 if __name__ == "__main__":
     app = App()
