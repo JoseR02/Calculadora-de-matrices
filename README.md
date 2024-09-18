@@ -1,6 +1,6 @@
 # Calculadora de matrices or Matrix calculetor
 
-###Matrix Operations:
+### Matrix Operations:
 
 - Addition: Computes the sum of two matrices.
 
@@ -10,7 +10,7 @@
 
 - Reduction: Checks if the first matrix is in reduced row echelon form.
 
-###Matrix Input:
+### Matrix Input:
 
 Users can specify the dimensions of two matrices and then input their elements through dynamically generated entry fields.
 Help and Information:
@@ -37,7 +37,7 @@ Use the help buttons next to each operation to get detailed instructions.
 Click the "Creditos" button to view developer information and references.
 Code Overview
 
-###Class App:
+### Class App:
 
 Inherits from ctk.CTk and tk.Tk.
 Initializes the application window and sets up the interface.
@@ -60,11 +60,11 @@ boton_salida: Confirms and exits the application.
 ayuda_funciona: Provides instructions on how to use the application.
 creditos_usuarios: Displays credits and references.
 
-#Installation and Requirements
+# Installation and Requirements
 
-###Ensure you have the following packages installed:
+### Ensure you have the following packages installed:
 
 - tkinter
 - customtkinter
 - numpy
-###You can install the necessary packages using pip.
+### You can install the necessary packages using pip.
